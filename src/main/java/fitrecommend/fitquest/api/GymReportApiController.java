@@ -196,6 +196,13 @@ public class GymReportApiController {
         }
         newGymReport.setProgress(Progress.READY);
         gymReportJPARepository.save(newGymReport);
+        if(member.getToday() == Today.CHEST){
+            member.setToday(Today.BACK);
+        }else if(member.getToday() == Today.BACK){
+            member.setToday(Today.LEG);
+        }else{
+            member.setToday(Today.CHEST);
+        }
         memberRepository.save(member);
 
         return ResponseEntity.ok(gymRecommendResponseDtos);
@@ -269,16 +276,16 @@ public class GymReportApiController {
         gymReport.setReportKcal(gymReport.getReportKcal());
         gymReportCompleteResponseDto.setTotalGymKcal(gymReport.getReportKcal());
         gymReport.setProgress(Progress.COMPLETE);
-        if(member.getToday() == Today.CHEST){
-            gymReport.setToday(Today.CHEST);
-            member.setToday(Today.BACK);
-        }else if(member.getToday() == Today.BACK){
-            gymReport.setToday(Today.BACK);
-            member.setToday(Today.LEG);
-        }else{
-            gymReport.setToday(Today.LEG);
-            member.setToday(Today.CHEST);
-        }
+//        if(member.getToday() == Today.CHEST){
+//            gymReport.setToday(Today.CHEST);
+//            member.setToday(Today.BACK);
+//        }else if(member.getToday() == Today.BACK){
+//            gymReport.setToday(Today.BACK);
+//            member.setToday(Today.LEG);
+//        }else{
+//            gymReport.setToday(Today.LEG);
+//            member.setToday(Today.CHEST);
+//        }
         memberRepository.save(member);
         gymReportJPARepository.save(gymReport);
         return ResponseEntity.ok(gymReportCompleteResponseDto);
@@ -380,4 +387,5 @@ public class GymReportApiController {
 
         }
     }
+}
 

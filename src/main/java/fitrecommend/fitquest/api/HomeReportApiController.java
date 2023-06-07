@@ -101,7 +101,7 @@ public class HomeReportApiController {
 
         FlaskRecommendRequestDto requestDto = new FlaskRecommendRequestDto();
 
-        if(homeReports1.size()==0){
+        if(homeReports1.size()==0 || homeReports2.size() == 0){
             requestDto.setMemberId(memberId);
             HomePreferDto homePreferDto1 = new HomePreferDto();
             homePreferDto1.setHomeType(member.getSurvey().getPrefer1());
@@ -155,7 +155,6 @@ public class HomeReportApiController {
         memberRepository.save(member);
 
         Home home = homeRepository.findOne(responseEntity.getBody().getHomeId());
-        home.setHomereport(homeReport);
         homeReport.setHome(home);
         homeReportJPARepository.save(homeReport);
         homeRecommendResponseDto.setType(home.getType());
